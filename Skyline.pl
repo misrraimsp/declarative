@@ -1,9 +1,7 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %% Cabecera del programa Skyline.pl
 %% Práctica de Teoría de los Lenguajes de Programación
 %% Curso 2015-2016
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Predicado principal de la práctica,
 % verdad si 'Skyline' es la lista de coordenadas correspondiente al skyline de la lista de edificios 'Edificios'.
@@ -13,12 +11,10 @@ resuelveSkyline([Edificio],Skyline) :- edificioAskyline(Edificio,Skyline), !.
 resuelveSkyline(Edificios,Skyline) :- divide(Edificios,E1,E2), resuelveSkyline(E1,S1), resuelveSkyline(E2,S2), combina(S1,S2,Skyline).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Predicado verdadero si el segundo argumento son las coordenadas del skyline del edificio pasado como primer argumento.
 
 edificioAskyline(ed(X1,X2,H), [c(X1,H),c(X2,0)]).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Predicado verdadero si el segundo y tercer argumento representan mitades del primer argumento, o a lo sumo con un elemento de diferencia.
 
@@ -27,12 +23,10 @@ divide([X],[X],[]) :- !.
 divide([A,B|T],[A|T1],[B|T2]) :- divide(T,T1,T2).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Predicado verdadero si 'R' es el skyline resultado de combinar los skylines 'X' e 'Y'.
 
 combina(X,Y,R) :- combina2(X,Y,0,0,0,R).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Predicado auxiliar que lleva a la práctica el trabajo del predicado 'combina'. 9 Casos diferentes.
 
@@ -64,12 +58,10 @@ combina2([c(X,H1)|T1],[c(X,H2)|T2],_,_,Hactual,T) :- maximo2(H1,H2,Hactual), !, 
 combina2([c(X,H1)|T1],[c(X,H2)|T2],_,_,_,[c(X,Altura)|T]) :- maximo2(H1,H2,Altura), combina2(T1,T2,H1,H2,Altura,T).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Predicado que presenta en pantalla el dibujo del skyline pasado como argumento.
 
 dibujaSkyline(Skyline) :- son_las_alturas(Skyline,0,0,Alturas), maximoN(Alturas,Hmax), escribe(Alturas,0,Hmax).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Predicado auxiliar de 'dibujaSkyline',
 % verdad si el último argumento representa la lista de alturas asociada al skyline pasado como primer argumento.
@@ -78,7 +70,6 @@ son_las_alturas([],_,_,[]) :- !.
 son_las_alturas([c(X,H)|Cs],X,_,[H|As]) :- !, Xsiguiente is X + 1, son_las_alturas(Cs,Xsiguiente,H,As).
 son_las_alturas(Cs,Xactual,Hactual,[Hactual|As]) :- Xsiguiente is Xactual + 1, son_las_alturas(Cs,Xsiguiente,Hactual,As).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Predicado auxiliar de 'dibujaSkyline',
 % encargado de sacar por pantalla los caracteres que representan el skyline asociado a la lista de alturas pasada como primer parámetro.
@@ -100,7 +91,6 @@ escribe(Alturas,Xactual,Hactual) :- es_el_elemento(Alturas,Xactual,H), Hactual >
 escribe(Alturas,Xactual,Hactual) :- es_el_elemento(Alturas,Xactual,H), H >= Hactual, X is Xactual + 1, write(*), escribe(Alturas,X,Hactual).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Predicado auxiliar,
 % verdad si el tercer argumento es el máximo entre el primer y el segundo argumento.
 
@@ -109,14 +99,12 @@ maximo2(X,Y,X) :- X > Y, !.
 maximo2(X,Y,Y) :- Y > X.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Predicado auxiliar,
 % verdad si el segundo argumento es el máximo de la lista pasada como primer argumento.
 
 maximoN([M],M) :- !.
 maximoN([Cabeza|Cola],M) :- maximoN(Cola,Mactual), maximo2(Cabeza,Mactual,M).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Predicado auxiliar,
 % verdad si el tercer argumento se encuentra en la posición dada por el segundo argumento dentro de la lista dada como primer argumento,
@@ -125,7 +113,6 @@ maximoN([Cabeza|Cola],M) :- maximoN(Cola,Mactual), maximo2(Cabeza,Mactual,M).
 es_el_elemento([X|_],0,X) :- !.
 es_el_elemento([_|T],N,X) :- N1 is N - 1, es_el_elemento(T,N1,X).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Predicado auxiliar,
 % verdad si el segundo argumento es la longitud de la lista pasada en el primer argumento.
